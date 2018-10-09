@@ -67,19 +67,11 @@ public class ProductoTest {
 	@Test
 	public void testRegister() throws Exception {
 		Marca marca = new Marca();
-		//marca.setId(1l);
-		marca.setNombre("marca");
-		marca.setEstado("A");
-		marcaServicio.insertarMarca(marca);
-		System.out.println("&&&&&&&&" + marca.getId());
-		marcaServicio.buscarTodosLasMarcas();
-
+		marca.setId(1l);
+		
 		TipoProducto tipoProducto = new TipoProducto();
-		//tipoProducto.setId(1l);
-		tipoProducto.setNombre("tipoProducto");
-		tipoProducto.setEstado("A");
-		tipoProductoServicio.insertarTipoProducto(tipoProducto);
-
+		tipoProducto.setId(1l);
+		
 		Producto producto = new Producto();
 		//producto.setId(1l);
 		producto.setNombre("nombre");
