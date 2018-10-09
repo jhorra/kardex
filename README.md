@@ -12,7 +12,7 @@ CREATE USER kardex
       IDENTIFIED BY kardex
       DEFAULT TABLESPACE  KARDEX_TS
       QUOTA 100M ON KARDEX_TS;
-grant dba to SAPDA1;
+grant dba to kardex;
 
 Ejecutar script que se encuentra en: /git_kardex/kardex-bdd (este crea el modelo y crea datos iniciales)
 
@@ -20,6 +20,6 @@ Ejecutar script que se encuentra en: /git_kardex/kardex-bdd (este crea el modelo
 
 3.- Compilar el proyecto con el siguiente comando: mvn clean install -Dhttps.protocols=TLSv1.2
 
-4. Ruta para acceso a la aplicacion: localhost:8083/kardex-web/
+4. Ruta para acceso a la aplicacion: localhost:8080/kardex-web/
 
 5.- Pruebas unitarias, el JBOSS debe estar corriendo para poder ejecutar el preuba unitaria de la clase: /git_kardex/kardex-ejb/src/test/java/com/kardex/test/ProductoTest.java
