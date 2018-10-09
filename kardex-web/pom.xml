@@ -24,24 +24,6 @@
 
 		</dependencies>
 	</dependencyManagement>
-	<repositories>
-		<repository>
-			<id>prime-repo</id>
-			<name>Prime Repo</name>
-			<url>http://repository.primefaces.org</url>
-			 <layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-				<checksumPolicy>Ignore</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>interval:0</updatePolicy>
-				<checksumPolicy>Ignore</checksumPolicy>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		
@@ -120,12 +102,6 @@
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy</artifactId>
 			<version>1.8.3</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>10.2.0.4.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
