@@ -77,6 +77,7 @@ public class ProductoTest {
 		producto.setNombre("nombre");
 		producto.setEstado("A");
 		producto.setCantidad(BigDecimal.ONE);
+		producto.setPrecio(BigDecimal.ONE);
 		producto.setMarca(marca);
 		producto.setTipoProducto(tipoProducto);
 
