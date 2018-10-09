@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/clearTemplate.xhtml">
+	<ui:define name="tituloPagina">#{etiquetas['inventario.pagina.titulo']}</ui:define>
+	<ui:define name="tituloFormulario">#{etiquetas['inventario.pagina.titulo']}</ui:define>
+	<ui:define name="autor">Javier Horra</ui:define>
+	<ui:define name="contenidomenu">
+		<h:form id="frm0">
+			<p:tabMenu activeIndex="1">
+				<p:menuitem value="Producto" outcome="Producto.xhtml"
+					icon="ui-icon-star">
+					<f:param name="i" value="0" />
+				</p:menuitem>
+				<p:menuitem value="Inventario" outcome="Inventario.xhtml"
+					icon="ui-icon-search">
+					<f:param name="i" value="1" />
+				</p:menuitem>
+			</p:tabMenu>
+		</h:form>
+	</ui:define>
+	<ui:define name="contenido">
+		<div align="center">
+			<h:form id="frm">
+				<p:panel header="#{etiquetas['inventario.ingresar.titulo']}">
+					<div align="center">
+						<p:growl autoUpdate="true" />
+					</div>
+					<p:panelGrid columns="2">
+						<p:outputLabel value="#{etiquetas['inventario.ingresar.label1']}" />
+						<p:selectOneMenu
+							value="#{inventarioAction.inventarioBean.sucursalId}">
+							<f:selectItems value="#{inventarioAction.sucursales}"
+								var="sucursal" itemLabel="#{sucursal.nombre}"
+								itemValue="#{sucursal.id}">
+							</f:selectItems>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="#{etiquetas['inventario.ingresar.label2']}" />
+						<p:selectOneMenu
+							value="#{inventarioAction.inventarioBean.productoId}"
+							>
+							<f:selectItems value="#{inventarioAction.productos}"
+								var="producto" itemLabel='#{producto.nombre} - Total: #{producto.cantidad}'
+								itemValue="#{producto.id}">
+							</f:selectItems>
+							
+						</p:selectOneMenu>
+
+						<p:outputLabel for="cantidad"
+							value="#{etiquetas['inventario.ingresar.label3']}" />
+						<p:inputText id="cantidad"
+							value="#{inventarioAction.inventarioBean.inventario.cantidad}" />
+
+						<p:outputLabel for="cantidadSaliente"
+							value="#{etiquetas['inventario.ingresar.label4']}" />
+						<p:inputText id="cantidadSaliente"
+							value="#{inventarioAction.inventarioBean.inventario.cantidadSaliente}" />
+
+					</p:panelGrid>
+					<br />
+					<div align="center">
+						<p:commandButton action="#{inventarioAction.guardar}"
+							value="Insertar" rendered="#{inventarioAction.activarInsertar}"
+							update="@form" />
+						<p:commandButton action="#{inventarioAction.actualizar}"
+							value="Actualizar"
+							rendered="#{inventarioAction.activarActualizar}" update="@form" />
+					</div>
+				</p:panel>
+				<br />
+				<p:dataTable id="tbl" value="#{inventarioAction.inventarios}"
+					var="inventario">
+					<f:facet name="header">
+						<p:outputLabel value="#{etiquetas['inventario.tabla.titulo']}" />
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['inventario.tabla.label1']}" />
+						</f:facet>
+						<h:outputLabel value="#{inventario.sucursal.nombre}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['inventario.tabla.label2']}" />
+						</f:facet>
+						<h:outputLabel value="#{inventario.producto.nombre}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['inventario.tabla.label3']}" />
+						</f:facet>
+						<h:outputLabel value="#{inventario.producto.cantidad}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['inventario.tabla.label4']}" />
+						</f:facet>
+						<h:outputLabel value="#{inventario.cantidad}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['inventario.tabla.label5']}" />
+						</f:facet>
+						<h:outputLabel value="#{inventario.cantidadSaliente}" />
+					</p:column>
+
+
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['inventario.tabla.label6']}" />
+						</f:facet>
+						<p:commandLink action="#{inventarioAction.actualizarBoton}"
+							process="@this" update="@form">
+							<p:graphicImage value="/resources/img/edit.png" height="25"
+								width="25" />
+							<f:setPropertyActionListener
+								target="#{inventarioAction.inventarioBean.inventario}"
+								value="#{inventario}" />
+							<f:setPropertyActionListener
+								target="#{inventarioAction.inventarioBean.productoId}"
+								value="#{inventario.producto.id}" />
+							<f:setPropertyActionListener
+								target="#{inventarioAction.inventarioBean.sucursalId}"
+								value="#{inventario.sucursal.id}" />
+						</p:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['inventario.tabla.label7']}" />
+						</f:facet>
+						<p:commandLink action="#{inventarioAction.procesar}"
+							process="@this" update="@form">
+							<p:graphicImage value="/resources/img/delete.png" height="25"
+								width="25" />
+							<f:setPropertyActionListener
+								target="#{inventarioAction.inventarioBean.inventario}"
+								value="#{inventario}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+				<!-- 			<div align="center"> -->
+				<!-- 				<p:commandButton value="Volver" action="#{controladorEmpleado.volver()}" /> -->
+				<!-- 			</div> -->
+			</h:form>
+			<h:form id="frm2">
+				<p:dialog id="dialog" header="Eliminar" widgetVar="dialogEliminar"
+					modal="true">
+					<p:outputLabel value="Seguro?" />
+					<p:panelGrid columns="2">
+						<p:commandButton value="Si" action="#{inventarioAction.eliminar}"
+							update=":frm" />
+						<p:commandButton value="No" onclick="frm.hide()" />
+					</p:panelGrid>
+				</p:dialog>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

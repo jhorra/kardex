@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/clearTemplate.xhtml">
+	<ui:define name="tituloPagina">#{etiquetas['producto.pagina.titulo']}</ui:define>
+	<ui:define name="tituloFormulario">#{etiquetas['producto.pagina.titulo']}</ui:define>
+	<ui:define name="autor">Javier Horra</ui:define>
+	<ui:define name="contenidomenu">
+		<h:form id="frm0">
+			<p:tabMenu activeIndex="0">
+				<p:menuitem value="Producto" outcome="Producto.xhtml"
+					icon="ui-icon-star">
+					<f:param name="i" value="0" />
+				</p:menuitem>
+				<p:menuitem value="Inventario" outcome="Inventario.xhtml"
+					icon="ui-icon-search">
+					<f:param name="i" value="1" />
+				</p:menuitem>
+			</p:tabMenu>
+		</h:form>
+	</ui:define>
+	<ui:define name="contenido">
+		<div align="center">
+			<h:form id="frm">
+				<p:panel header="#{etiquetas['producto.ingresar.titulo']}">
+					<div align="center">
+						<p:growl autoUpdate="true" />
+					</div>
+					<p:panelGrid columns="2">
+						<p:outputLabel for="productonombre"
+							value="#{etiquetas['producto.ingresar.label1']}" />
+						<p:inputText id="productonombre"
+							value="#{productoAction.productoBean.producto.nombre}" />
+
+						<p:outputLabel value="#{etiquetas['producto.ingresar.label2']}" />
+						<p:selectOneMenu
+							value="#{productoAction.productoBean.producto.estado}">
+							<f:selectItem
+								itemLabel="#{etiquetas['producto.ingresar.label8']}"
+								itemValue="A" />
+							<f:selectItem
+								itemLabel="#{etiquetas['producto.ingresar.label9']}"
+								itemValue="I" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="productoprecio"
+							value="#{etiquetas['producto.ingresar.label3']}" />
+						<p:inputText id="productoprecio"
+							value="#{productoAction.productoBean.producto.precio}" />
+
+						<p:outputLabel for="productocantidad"
+							value="#{etiquetas['producto.ingresar.label4']}" />
+						<p:inputText id="productocantidad"
+							value="#{productoAction.productoBean.producto.cantidad}" />
+
+						<p:outputLabel value="#{etiquetas['producto.ingresar.label5']}" />
+						<p:selectOneMenu value="#{productoAction.productoBean.marcaId}">
+							<f:selectItems value="#{productoAction.marcas}" var="marca"
+								itemLabel="#{marca.nombre}" itemValue="#{marca.id}">
+							</f:selectItems>
+						</p:selectOneMenu>
+
+						<p:outputLabel value="#{etiquetas['producto.ingresar.label6']}" />
+						<p:selectOneMenu
+							value="#{productoAction.productoBean.tipoProductoId}">
+							<f:selectItems value="#{productoAction.tipoProductos}"
+								var="tipoProducto" itemLabel="#{tipoProducto.nombre}"
+								itemValue="#{tipoProducto.id}">
+							</f:selectItems>
+						</p:selectOneMenu>
+
+					</p:panelGrid>
+					<br />
+					<div align="center">
+						<p:commandButton action="#{productoAction.guardar}"
+							value="Insertar" rendered="#{productoAction.activarInsertar}"
+							update="@form" />
+						<p:commandButton action="#{productoAction.actualizar}"
+							value="Actualizar" rendered="#{productoAction.activarActualizar}"
+							update="@form" />
+					</div>
+				</p:panel>
+				<br />
+				<p:dataTable id="tbl" value="#{productoAction.productos}"
+					var="producto">
+					<f:facet name="header">
+						<p:outputLabel value="#{etiquetas['producto.tabla.titulo']}" />
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label1']}" />
+						</f:facet>
+						<h:outputLabel value="#{producto.nombre}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label2']}" />
+						</f:facet>
+						<h:outputLabel value="#{producto.estado}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label3']}" />
+						</f:facet>
+						<h:outputLabel value="#{producto.precio}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label4']}" />
+						</f:facet>
+						<h:outputLabel value="#{producto.cantidad}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label5']}" />
+						</f:facet>
+						<h:outputLabel value="#{producto.marca.nombre}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label6']}" />
+						</f:facet>
+						<h:outputLabel value="#{producto.tipoProducto.nombre}" />
+					</p:column>
+
+
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label7']}" />
+						</f:facet>
+						<p:commandLink action="#{productoAction.actualizarBoton}"
+							process="@this" update="@form">
+							<p:graphicImage value="/resources/img/edit.png" height="25"
+								width="25" />
+							<f:setPropertyActionListener
+								target="#{productoAction.productoBean.producto}"
+								value="#{producto}" />
+							<f:setPropertyActionListener
+								target="#{productoAction.productoBean.marcaId}"
+								value="#{producto.marca.id}" />
+							<f:setPropertyActionListener
+								target="#{productoAction.productoBean.tipoProductoId}"
+								value="#{producto.tipoProducto.id}" />
+						</p:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="#{etiquetas['producto.tabla.label8']}" />
+						</f:facet>
+						<p:commandLink action="#{productoAction.procesar}" process="@this"
+							update="@form">
+							<p:graphicImage value="/resources/img/delete.png" height="25"
+								width="25" />
+							<f:setPropertyActionListener
+								target="#{productoAction.productoBean.producto}"
+								value="#{producto}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+				<!-- 			<div align="center"> -->
+				<!-- 				<p:commandButton value="Volver" action="#{controladorEmpleado.volver()}" /> -->
+				<!-- 			</div> -->
+			</h:form>
+			<h:form id="frm2">
+				<p:dialog id="dialog" header="Eliminar" widgetVar="dialogEliminar"
+					modal="true">
+					<p:outputLabel value="Seguro?" />
+					<p:panelGrid columns="2">
+						<p:commandButton value="Si" action="#{productoAction.eliminar}"
+							update=":frm" />
+						<p:commandButton value="No" onclick="frm.hide()" />
+					</p:panelGrid>
+				</p:dialog>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
